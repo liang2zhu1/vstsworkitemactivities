@@ -1,0 +1,168 @@
+.hidden-onload {
+    display: none;
+}
+
+.activity-body .hub-title {
+    position: inherit;
+    font-weight: normal;
+}
+
+.activity-body .hub-title .description {
+    padding: 0;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.activity-body .hub-title .reset {
+    float: right;
+}
+
+.activities-container {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+}
+
+.activities-container .tfs-collapsible-header .tfs-collapsible-collapse {
+    margin-bottom: 5px;
+}
+
+.activities-container .activity-workitem-color {
+    border-left: 5px;
+    border-bottom: 0;
+    border-right: 0;
+    border-top: 0;
+    border-style: solid;
+}
+
+/* This is for collapsed panel - when there's no span before the color it won't have correct size */
+.activities-container .activity-workitem-color::before
+{
+        content: "";
+}
+
+.activities-container .activity {
+    padding: 3px;
+    font-size: 15px;
+}
+
+.activities-container .activity > span {
+    margin: 0 3px;
+    color: #000;
+}
+
+.activities-container .activity .activity-workitem-id {
+    color: #999;
+    padding-right: 5px;
+}
+
+.activities-container .activity .activity-workitem-title {
+    padding-right: 5px;
+}
+
+.activities-container .activity .activity-date {
+    color: #999;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.activities-container .activity .activity-workitem-title:hover {
+    color: #007acc;
+}
+
+.activities-container .activity .activity-type {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.activities-container .activity .activity-assigned-to {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.activities-container .activity .activity-assigned-to > img {
+    position: absolute;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+}
+
+.activities-container .tfs-collapsible-header.disabled {
+    padding-left: 20px;
+}
+
+.page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.filter-description {
+    padding-left: 23px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.filter-container {
+    padding-left: 20px;
+}
+
+.filter-container .filter-checkbox-wrapper {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.filter-container .filter-checkbox {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.filter-container label.filter-checkbox-label {
+    margin-top: -15px;
+}
+
+.filter-container .workitem-color {
+    border-left: 5px;
+    border-bottom: 0;
+    border-right: 0;
+    border-top: 0;
+    border-style: solid;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.detail-list {
+ /*   background-color: $backgroundColor; */
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-left: 6px;
+}
+
+.detail-list td {
+    overflow: auto;
+    padding: 4px;
+    padding-right: 10px;
+    border-right: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-bottom: 1px solid #ECECEA;
+    color: #000000;
+}
+
+.detail-list tr:first-child td {
+    background: #D6ECF2;
+    font-weight: bold;
+    border-top: 1px solid #F2F2F2;
+}
+
+/* Style for 'Old Value' column in work item field table of work item history  */
+.detail-list tr:not(:first-child) td:nth-child(3) {
+    font-style: italic;
+    color: #A0A0A0;
+}
+
+.splitter .rightPane {
+    overflow-y: auto !important;
+}

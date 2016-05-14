@@ -1,0 +1,104 @@
+{
+    "manifestVersion": 1,
+    "id": "vsts-extension-workitem-activities",
+    "version": "0.1.0",
+    "name": "Recent work item activites",
+    "scopes": [
+        "vso.work",
+        "vso.work_write"
+    ],
+    "description": "This extension provides a new 'Activities' hub under Work group with the work items you recently accessed",
+    "publisher": "l2z1",
+    "public": false,
+    "icons": {
+        "default": "img/logo.png"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "tags": [
+        "Work Item"
+    ],
+    "content": {
+        "details": {
+            "path": "details.md"
+        }
+    },
+    "links": {
+        "home": {
+            "uri": "https://github.com/liang2zhu1/vstsworkitemactivities"
+        },
+        "getstarted": {
+            "uri": "https://github.com/liang2zhu1/vstsworkitemactivities"
+        },
+        "learn": {
+            "uri": "https://github.com/liang2zhu1/vstsworkitemactivities"
+        },
+        "support": {
+            "uri": "https://github.com/liang2zhu1/vstsworkitemactivities"
+        },
+        "repository": {
+            "uri": "https://github.com/liang2zhu1/vstsworkitemactivities"
+        },
+        "issues": {
+            "uri": "https://github.com/liang2zhu1/vstsworkitemactivities"
+        }
+    },
+    "branding": {
+        "color": "rgb(220, 235, 252)",
+        "theme": "light"
+    },
+    "files": [
+        {
+            "path": "img",
+            "addressable": true
+        },
+        {
+            "path": "scripts",
+            "addressable": true
+        },
+        {
+            "path": "styles",
+            "addressable": true
+        },
+        {
+            "path": "activities.html",
+            "addressable": true
+        },
+        {
+            "path": "observer.html",
+            "addressable": true
+        }
+    ],
+    "categories": [
+        "Integrate"
+    ],
+    "contributions": [
+        {
+            "id": "workitem-activities-hub",
+            "type": "ms.vss-web.hub",
+            "description": "Adds activites hub to the Work hub group.",
+            "targets": [
+                "ms.vss-work-web.work-hub-group"
+            ],
+            "properties": {
+                "name": "Activities",
+                "order": 99,
+                "uri": "activities.html"
+            }
+        },
+        {
+            "id": "workitem-activities-observer",
+            "type": "ms.vss-work-web.work-item-notifications",
+            "description": "Listener on work item from record work item usages",
+            "targets": [
+                "ms.vss-work-web.work-item-form"
+            ],
+            "properties": {
+                "uri": "observer.html"
+            }
+        }
+    ]
+}

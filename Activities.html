@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <script src="scripts/VSS.SDK.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/Activity.css">
+</head>
+
+<body>
+    <script type="text/javascript">
+        // Initialize framework 
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            configureModuleLoader: true
+        });
+        
+        // Load main entry point for extension
+        VSS.require(["scripts/activities"], function (Activities) {
+            // Loading succeeded
+            var activities = new Activities.Activities();
+            activities.initialize();
+            
+            VSS.notifyLoadSucceeded();    
+        });
+    </script>
+
+    <div class="page">
+        <div class="activity-body">
+            <div class="hub-title hidden-onload">
+                <div>
+                    <span class="person"></span>
+                    <span>: Activity</span>
+                </div>
+                <div class="description">
+                    <span>View and access your most recently visited items.</span>
+                    <span><button class="reset">Clear Activity History</button></span>
+                </div>
+            </div>
+            <hr class="hidden-onload">
+            <div class="content"></div>
+        </div>
+    </div>
+</body>
+
+</html>
