@@ -35,7 +35,4 @@ export class Constants {
     public static StorageKey: string = "WorkItemActivityStorage";
     public static UserScope = { scopeType: "User" };
     public static UtcRegex = /\d+-\d+-\d+T\d+:\d+:\d+\.\d+Z/;
-    
-    public static ExtensionPublisher = "l2z1";
-    public static ExtensionName = "vsts-extension-workitem-activities";
 }
