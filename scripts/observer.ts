@@ -152,6 +152,16 @@ export class ActivityManager {
 
         VSS.getService<IExtensionDataService>(VSS.ServiceIds.ExtensionData).then((dataService: IExtensionDataService) => {
             dataService.getValue<Models.WorkItemActivityInfo[]>(Models.Constants.StorageKey, Models.Constants.UserScope).then((activities) => {
+                // Handling the back compat case where the activities were stored
+                // in the wrong order.
+                if ($.isArray(activities) && activities.length > 1) {
+                    let firstActivityDate = new Date(activities[0].activityDate);
+                    let nextActivityDate = new Date(activities[1].activityDate);
+                    if (firstActivityDate < nextActivityDate) {
+                        activities = activities.reverse();
+                    }
+                }
+
                 defer.resolve(activities);
             }, (reason) => {
                 console.error(`Unable to get activities: ${reason}`);
