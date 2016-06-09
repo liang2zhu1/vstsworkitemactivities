@@ -1,5 +1,4 @@
-﻿/// <reference path='../typings/tsd.d.ts' />
-import Q = require("q");
+﻿import Q = require("q");
 import * as VSSService from "VSS/Service";
 import * as Utils_Core from "VSS/Utils/Core";
 import * as Utils_String from "VSS/Utils/String";
@@ -16,7 +15,7 @@ var observerProvider = () => {
             if (visitedId > 0) {
                 WorkItemFormService.getService().then(
                     // casting to any for now since the typescript doesn't treat the calls as promises
-                    (workItemFormService: any) => {
+                    (workItemFormService: IWorkItemFormService) => {
                         workItemFormService.getId().then((currentId: number) => {
                             // Only log the visit if we're still on this work item.  If they
                             // didn't look for too long, it shouldn't be considered as a visit.
@@ -43,7 +42,7 @@ var observerProvider = () => {
             if (args && args.id > 0) {
                 WorkItemFormService.getService().then(
                     // casting to any for now since the typescript doesn't treat the calls as promises
-                    (workItemFormService: any) => {
+                    (workItemFormService: IWorkItemFormService) => {
                         workItemFormService.getFieldValues(["System.Id", "System.Rev"]).then((values: IDictionaryStringTo<Object>) => {
                             console.log(`onsaved resolved:${args.id}, id: ${values["System.Id"]}, revision ${values["System.Rev"]}`);
                             if (args.id == <number>values["System.Id"]) {
@@ -56,7 +55,7 @@ var observerProvider = () => {
     }
 };
 
-VSS.register(`${Models.Constants.ExtensionPublisher}.${Models.Constants.ExtensionName}.workitem-activities-observer`, observerProvider);
+VSS.register(VSS.getContribution().id, observerProvider);
 
 export class ActivityManager {
     constructor() {
@@ -153,6 +152,16 @@ export class ActivityManager {
 
         VSS.getService<IExtensionDataService>(VSS.ServiceIds.ExtensionData).then((dataService: IExtensionDataService) => {
             dataService.getValue<Models.WorkItemActivityInfo[]>(Models.Constants.StorageKey, Models.Constants.UserScope).then((activities) => {
+                // Handling the back compat case where the activities were stored
+                // in the wrong order.
+                if ($.isArray(activities) && activities.length > 1) {
+                    let firstActivityDate = new Date(activities[0].activityDate);
+                    let nextActivityDate = new Date(activities[1].activityDate);
+                    if (firstActivityDate < nextActivityDate) {
+                        activities = activities.reverse();
+                    }
+                }
+
                 defer.resolve(activities);
             }, (reason) => {
                 console.error(`Unable to get activities: ${reason}`);
@@ -191,17 +200,23 @@ export class ActivityManager {
             existingEntry.activityType == Models.ActivityType.Edit) {
             var existingDate = new Date(existingEntry.activityDate);
             if (activityDate.getTime() - existingDate.getTime() < 10000) {
+                console.log("Onload before save event");
                 return;
             }
         }
 
         if (existingEntry) {
+            // remove the entry from it's current location
+            // since we're going to bring to the top of the list.
             activities.splice(existingEntryIndex, 1);
         }
 
-        activities.splice(1000);
-        activities.push(activity);
+        // put the activity on the top of the array
+        activities.unshift(activity);
 
+        // trim activities to a max of 1000
+        activities.splice(1000);
+        
         VSS.getService<IExtensionDataService>(VSS.ServiceIds.ExtensionData).then((dataService: IExtensionDataService) => {
             dataService.setValue<Models.WorkItemActivityInfo[]>(Models.Constants.StorageKey, activities, Models.Constants.UserScope);
         });
