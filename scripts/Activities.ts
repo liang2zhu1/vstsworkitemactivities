@@ -1,5 +1,4 @@
-﻿/// <reference path='../typings/tsd.d.ts' />
-import {BaseControl} from "VSS/Controls";
+﻿import {BaseControl} from "VSS/Controls";
 import {Splitter} from "VSS/Controls/Splitter";
 import * as Controls from "scripts/Controls";
 import {WorkItemActivity, ActivityType, WorkItemActivityInfo} from "scripts/Models";
