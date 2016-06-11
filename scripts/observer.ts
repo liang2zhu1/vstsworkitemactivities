@@ -31,20 +31,17 @@ var observerProvider = () => {
         // Called when a new work item is being loaded in the UI
         onLoaded: (args: WitExtensionContracts.IWorkItemLoadedArgs) => {
             if (args && !args.isNew) {
-                console.log(`onloaded:${args.id}`);
                 Utils_Core.delay(this, 3000, _visitDelegate, [args.id])
             }
         },
 
         // Called after the work item has been saved
         onSaved: (args: WitExtensionContracts.IWorkItemChangedArgs) => {
-            console.log(`onsaved:${args.id}`);
             if (args && args.id > 0) {
                 WorkItemFormService.getService().then(
                     // casting to any for now since the typescript doesn't treat the calls as promises
                     (workItemFormService: IWorkItemFormService) => {
                         workItemFormService.getFieldValues(["System.Id", "System.Rev"]).then((values: IDictionaryStringTo<Object>) => {
-                            console.log(`onsaved resolved:${args.id}, id: ${values["System.Id"]}, revision ${values["System.Rev"]}`);
                             if (args.id == <number>values["System.Id"]) {
                                 manager.addActivity(args.id, Models.ActivityType.Edit, <number>values["System.Rev"]);
                             }
@@ -62,7 +59,6 @@ export class ActivityManager {
     }
 
     public addActivity(id: number, activityType: Models.ActivityType, revision?: number): IPromise<void> {
-        console.log(`${Models.ActivityType[activityType]} work item ${id}`);
         var defer = Q.defer<void>();
 
         this._beginGetActivities().then((activities) => {
@@ -200,7 +196,6 @@ export class ActivityManager {
             existingEntry.activityType == Models.ActivityType.Edit) {
             var existingDate = new Date(existingEntry.activityDate);
             if (activityDate.getTime() - existingDate.getTime() < 10000) {
-                console.log("Onload before save event");
                 return;
             }
         }
