@@ -6,7 +6,6 @@ import * as Observer from "scripts/observer";
 
 export class Activities {
     public initialize() {
-        console.log("Activities.js loading");
 
         // Create splitter control 
         var splitterControl = BaseControl.createIn(Splitter, $(".page"), {
@@ -41,6 +40,5 @@ export class Activities {
 
         $(".hidden-onload").show();
 
-        console.log("Activities.js loaded");
     }
 }
