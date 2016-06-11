@@ -90,7 +90,6 @@ export class Activities extends BaseControl {
     }
 
     private _createActivityDetails(activity: WorkItemActivity): JQuery {
-        console.log(`creating details for work item  ${activity.id}`);
         var details = $("<div />");
 
         this._getWorkItemUpdate(activity.id, activity.revision).then((workItemUpdate) => {
@@ -168,7 +167,6 @@ export class Activities extends BaseControl {
 
     private _getWorkItemUpdate(id: number, rev: number, skip: number = 0): IPromise<WorkItemUpdate> {
         var deferred = Q.defer<WorkItemUpdate>();
-        console.log(`Getting updates for work item ${id}, rev ${rev}, skipping ${skip}`);
 
         // Updates are not 1:1 to revisions.  This isn't 100% guaranteed
         // to get the work item update in case a work item was linked 200
