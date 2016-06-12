@@ -2,3 +2,4 @@ node_modules
 typings
 scripts/*.js
 *.vsix
+dist

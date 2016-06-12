@@ -9,7 +9,6 @@
     ],
     "description": "This extension provides a new 'Activities' hub under Work group with the work items you recently accessed",
     "publisher": "l2z1",
-    "public": false,
     "icons": {
         "default": "img/logo.png"
     },
