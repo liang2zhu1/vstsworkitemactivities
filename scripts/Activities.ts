@@ -23,8 +23,6 @@ export class Activities {
         // Move activity body to the right pane of splitter control 
         $(".activity-body").appendTo($splitter.find(".rightPane"));
 
-        $(".activity-body .hub-title .person").text(VSS.getWebContext().user.name);
-
         var activitiesControl = <Controls.Activities>BaseControl.createIn(Controls.Activities, $(".activity-body .content"));
         var typesFilterControl = <Controls.TypesFilterControl>BaseControl.createIn(Controls.TypesFilterControl, $splitter.find(".leftPane"), {
             activitiesControl: activitiesControl

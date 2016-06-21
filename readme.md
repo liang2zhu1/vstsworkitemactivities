@@ -1,41 +1,22 @@
-## vsts-extension-workitem-activities ##
+## My Work Item Activity #
 
-VSTS Extension adds 'Activities' hub under Work group hub providing access to recent activites for work items 
+An [extension](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.vsts-extension-workitem-activities) for [Team Services](https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) that tracks your work item activity and provides a page to view your recent work item views and edits.
 
-This extension was boostrapped from https://cschleiden.wordpress.com/2016/02/24/extending-vsts-setup/.
 
-### Structure ###
+### Overview
 
-```
-/scripts            - Typescript code for extension
-/img                - Image assets for extension and description
-/typings            - Typescript typings
+This extension adds 'My Activity' hub under the Work group providing access to your recent work item views and edits.
 
-details.md          - Description to be shown in marketplace   
-index.html          - Main entry point
-vss-extension.json  - Extension manifest
-```
+![Hub](img/hub.png)
 
-### Usage ###
 
-1. Clone the repository
-1. `npm install` to install required dependencies
-2. `grunt` to build and package the application
 
-#### Grunt ####
+### How it works?
 
-Three basic `grunt` tasks are defined:
+This extensions works by recording each time you visit or edit a work item. When you go to 'My Activity' hub you can see your activity history and view what was changed. 
 
-* `build` - Compiles TS files in `scripts` folder
-* `package` - Builds the vsix package
-* `publish` - Publishes the extension to the marketplace using `tfx-cli`
 
-Note: To avoid `tfx` prompting for your token when publishing, login in beforehand using `tfx login` and the service uri of ` https://app.market.visualstudio.com`.
+### Feedback
 
-#### Including framework modules ####
+For bugs please use the [issue tracker](https://github.com/liang2zhu1/vstsworkitemactivities/issues) on the [GitHub repo](https://github.com/liang2zhu1/vstsworkitemactivities).
 
-The VSTS framework is setup to initalize the requirejs AMD loader, so just use `import Foo = require("foo")` to include framework modules.
-
-#### VS Code ####
-
-The included `.vscode` config allows you to open and build the project using [VS Code](https://code.visualstudio.com/).
