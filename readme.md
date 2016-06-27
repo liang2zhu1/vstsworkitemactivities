@@ -5,7 +5,7 @@ An [extension](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.vs
 
 ### Overview
 
-This extension adds 'My Activity' hub under the Work group providing access to your recent work item views and edits.
+This extension adds a 'My Activity' hub under the Work group providing access to your recent work item views and edits.
 
 ![Hub](img/hub.png)
 
