@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsts-extension-workitem-activities",
     "version": "1.0.0",
-    "name": "Recent work item activites",
+    "name": "My Work Item Activity",
     "scopes": [
         "vso.work"
     ],
@@ -71,7 +71,7 @@
         }
     ],
     "categories": [
-        "Integrate"
+        "Plan and track"
     ],
     "contributions": [
         {
