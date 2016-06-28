@@ -7,7 +7,7 @@
         "vso.work"
     ],
     "description": "This extension adds 'My Activity' hub under the Work group providing access to your recent work item views and edits.",
-    "publisher": "ms-devlabs",
+    "publisher": "l2z1",
     "icons": {
         "default": "img/logo.png"
     },
