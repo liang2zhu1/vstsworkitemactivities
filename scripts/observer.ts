@@ -55,6 +55,9 @@ var observerProvider = () => {
 VSS.register(VSS.getContribution().id, observerProvider);
 
 export class ActivityManager {
+   
+    private _maxWorkItems: number = 250;
+   
     constructor() {
     }
 
@@ -99,6 +102,7 @@ export class ActivityManager {
                     }
                 });
 
+                workItemIds.splice(this._maxWorkItems);
                 WitClient.getClient().getWorkItems(workItemIds, fields).then((workItems: WitContracts.WorkItem[]) => {
                     $.each(workItems, (i, workItem) => {
                         activityMap[workItem.id] = workItem;
@@ -209,8 +213,8 @@ export class ActivityManager {
         // put the activity on the top of the array
         activities.unshift(activity);
 
-        // trim activities to a max of 1000
-        activities.splice(1000);
+        // trim activities to a max
+        activities.splice(this._maxWorkItems);
         
         VSS.getService<IExtensionDataService>(VSS.ServiceIds.ExtensionData).then((dataService: IExtensionDataService) => {
             dataService.setValue<Models.WorkItemActivityInfo[]>(Models.Constants.StorageKey, activities, Models.Constants.UserScope);
