@@ -1,6 +1,6 @@
 ## My Work Item Activity #
 
-An [extension](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.vsts-extension-workitem-activities) for [Team Services](https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) that tracks your work item activity and provides a page to view your recent work item views and edits.
+An [extension](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.vsts-extension-workitem-activities) for [Team Services](https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) and TFS "15" that tracks your work item activity and provides a page to view your recent work item views and edits. __NOTE: This is not supported on TFS 2015.__
 
 
 ### Overview
