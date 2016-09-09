@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "vsts-extension-workitem-activities",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "My Work Item Activity",
     "scopes": [
         "vso.work"
