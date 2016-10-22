@@ -56,7 +56,7 @@ VSS.register(VSS.getContribution().id, observerProvider);
 
 export class ActivityManager {
    
-    private _maxWorkItems: number = 250;
+    private _maxWorkItems: number = 200;
    
     constructor() {
     }
