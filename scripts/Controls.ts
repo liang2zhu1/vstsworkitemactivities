@@ -5,13 +5,14 @@ import {BaseControl} from "VSS/Controls";
 import {StatusIndicator} from "VSS/Controls/StatusIndicator";
 import {CollapsiblePanel} from "VSS/Controls/Panels";
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
-import {WorkItemUpdate} from "TFS/WorkItemTracking/Contracts";
+import {WorkItemUpdate, WorkItemField} from "TFS/WorkItemTracking/Contracts";
 import {WorkItemFormNavigationService} from "TFS/WorkItemTracking/Services";
 import {WorkItemActivity, ActivityType, WorkItemActivityInfo, IdentityReference, Constants} from "scripts/Models";
 import {TypeColorHelper, manager} from "scripts/observer"
 
 export class Activities extends BaseControl {
     private _activitiesContainer: JQuery;
+    private _workitemFields: WorkItemField[];
 
     public initialize(): void {
         super.initialize();
@@ -128,10 +129,8 @@ export class Activities extends BaseControl {
             var $table = $("<table/>").addClass("detail-list").append(createHeaderRow());
 
             for (var field in workItemUpdate.fields) {
-                if (!this._isIgnoredFiled(field)) {
-                    var fieldUpdate = workItemUpdate.fields[field];
-                    $table.append(createRow(field, fieldUpdate));
-                }
+                var fieldUpdate = workItemUpdate.fields[field];
+                $table.append(createRow(field, fieldUpdate));
             }
 
             details.append($table);
@@ -167,6 +166,17 @@ export class Activities extends BaseControl {
 
     private _getWorkItemUpdate(id: number, rev: number, skip: number = 0): IPromise<WorkItemUpdate> {
         var deferred = Q.defer<WorkItemUpdate>();
+        var deferredFieldRetrieved = Q.defer<WorkItemField[]>();
+
+        if (this._workitemFields) {
+            deferredFieldRetrieved.resolve(this._workitemFields);
+        }
+        else {
+            WitClient.getClient().getFields().then((fields: WorkItemField[]) => {
+                this._workitemFields = fields;
+                deferredFieldRetrieved.resolve(fields);
+            });
+        }
 
         // Updates are not 1:1 to revisions.  This isn't 100% guaranteed
         // to get the work item update in case a work item was linked 200
@@ -174,21 +184,45 @@ export class Activities extends BaseControl {
         // since there is no point retrieving previous updates since there is no
         // way they can match.
         WitClient.getClient().getUpdates(id, null, skip + rev - 1).then((workItemUpdates) => {
-            var filteredWorkItemUpdates = workItemUpdates.filter((update) => {
-                return update.rev == rev;
-            });
+            deferredFieldRetrieved.promise.then(
+                (fields: WorkItemField[]) => {
+                    var filteredWorkItemUpdates = workItemUpdates.filter((update) => {
+                        return update.rev == rev;
+                    });
 
-            if (filteredWorkItemUpdates.length > 0) {
-                deferred.resolve(filteredWorkItemUpdates[0]);
-            }
-            else {
-                this._getWorkItemUpdate(id, rev, skip + 1).then((workItemUpdate) => {
-                    deferred.resolve(workItemUpdate);
-                });
-            }
+                    if (filteredWorkItemUpdates.length > 0) {
+                        deferred.resolve(this._replaceFieldReferenceNameByDisplayName(filteredWorkItemUpdates[0], fields));
+                    }
+                    else {
+                        this._getWorkItemUpdate(id, rev, skip + 1).then((workItemUpdate) => {
+                            deferred.resolve(this._replaceFieldReferenceNameByDisplayName(workItemUpdate, fields));
+                        });
+                    }
+                }
+            );
         });
 
         return deferred.promise;
+    }
+
+    private _replaceFieldReferenceNameByDisplayName(update: WorkItemUpdate, fields: WorkItemField[]): WorkItemUpdate {
+        var ref2displayname: IDictionaryStringTo<string> = {};
+
+        fields.forEach((field: WorkItemField) => {
+            ref2displayname[field.referenceName] = field.name;
+        });
+
+        for (var field in update.fields) {
+            var displayName = ref2displayname[field];
+            if (displayName) {
+                if (!this._isIgnoredFiled(field)) {
+                    update.fields[displayName] = update.fields[field]
+                }
+                delete update.fields[field];
+            }
+        }
+
+        return update;
     }
 }
 
